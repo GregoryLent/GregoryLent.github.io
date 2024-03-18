@@ -195,7 +195,6 @@ yearly_rainfall_df = df.groupby('year')['PRCP'].sum().reset_index()
 yearly_rainfall_df.columns = ['year', 'rainfall']
 yearly_rainfall_df = yearly_rainfall_df.iloc[1:-1, :]
 
-
 plt.plot(yearly_rainfall_df['year'], yearly_rainfall_df['rainfall'])
 plt.xlim(min(yearly_rainfall_df['year']), max(yearly_rainfall_df['year']))
 

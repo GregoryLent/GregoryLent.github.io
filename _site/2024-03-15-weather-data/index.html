@@ -513,12 +513,10 @@ USC00052223,19971113,TMAX,39,,,0,0800
 11
 12
 13
-14
 </pre></td><td class="code"><pre><span class="n">df</span><span class="p">[</span><span class="s">'year'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'date'</span><span class="p">].</span><span class="n">dt</span><span class="p">.</span><span class="n">year</span>
 <span class="n">yearly_rainfall_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">'year'</span><span class="p">)[</span><span class="s">'PRCP'</span><span class="p">].</span><span class="nb">sum</span><span class="p">().</span><span class="n">reset_index</span><span class="p">()</span>
 <span class="n">yearly_rainfall_df</span><span class="p">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s">'year'</span><span class="p">,</span> <span class="s">'rainfall'</span><span class="p">]</span>
 <span class="n">yearly_rainfall_df</span> <span class="o">=</span> <span class="n">yearly_rainfall_df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
-
 
 <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">yearly_rainfall_df</span><span class="p">[</span><span class="s">'year'</span><span class="p">],</span> <span class="n">yearly_rainfall_df</span><span class="p">[</span><span class="s">'rainfall'</span><span class="p">])</span>
 <span class="n">plt</span><span class="p">.</span><span class="n">xlim</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">yearly_rainfall_df</span><span class="p">[</span><span class="s">'year'</span><span class="p">]),</span> <span class="nb">max</span><span class="p">(</span><span class="n">yearly_rainfall_df</span><span class="p">[</span><span class="s">'year'</span><span class="p">]))</span>
