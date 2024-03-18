@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Beautiful Jekyll 6.0.1 | Copyright Dean Attali 2023 -->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  
+
+  
+
+  
+
+  <title>How Anyone Can Download and Use Historical Weather Data in Python&apos;s Pandas Library | Pandas Projects</title>
+
+  
+  
+  <meta name="author" content="Gregory Lent">
+  
+
+  <meta name="description" content="There&apos;s a wealth of data out there for anyone who understands how to access it!">
+
+  
+
+  
+
+  
+  <link rel="alternate" type="application/rss+xml" title="Pandas Projects" href="http://localhost:4000/feed.xml">
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+      
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+    
+      
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+
+
+    
+      
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic">
+
+
+    
+      
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800">
+
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/assets/css/bootstrap-social.css">
+    
+      <link rel="stylesheet" href="/assets/css/beautifuljekyll.css">
+    
+  
+
+  
+
+  
+  
+  
+
+  
+
+  
+  <meta property="og:site_name" content="Pandas Projects">
+  <meta property="og:title" content="How Anyone Can Download and Use Historical Weather Data in Python&apos;s Pandas Library | Pandas Projects">
+  <meta property="og:description" content="There&apos;s a wealth of data out there for anyone who understands how to access it!">
+
+  
+  <meta property="og:image" content="http://localhost:4000/assets/img/rain.jpg">
+  
+
+  
+  <meta property="og:type" content="article">
+  
+  <meta property="og:article:author" content="Gregory Lent">
+  
+  <meta property="og:article:published_time" content="2024-03-15T00:00:00-07:00">
+  <meta property="og:url" content="http://localhost:4000/2024-03-15-weather-data/">
+  <link rel="canonical" href="http://localhost:4000/2024-03-15-weather-data/">
+  
+
+  
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <meta name="twitter:site" content="@">
+  <meta name="twitter:creator" content="@">
+
+  <meta property="twitter:title" content="How Anyone Can Download and Use Historical Weather Data in Python&apos;s Pandas Library | Pandas Projects">
+  <meta property="twitter:description" content="There&apos;s a wealth of data out there for anyone who understands how to access it!">
+
+  
+  <meta name="twitter:image" content="http://localhost:4000/assets/img/rain.jpg">
+  
+
+  
+
+
+  
+
+  
+  
+
+  
+
+</head>
+
+
+<body>
+  
+
+
+  <nav class="navbar navbar-expand-xl navbar-light fixed-top navbar-custom top-nav-regular"><a class="navbar-brand" href="http://localhost:4000/">Pandas Projects</a><button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="main-navbar">
+    <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/aboutme">About Me</a>
+          </li>
+        <li class="nav-item">
+          <a class="nav-link" id="nav-search-link" href="#" title="Search">
+            <span id="nav-search-icon" class="fa fa-search"></span>
+            <span id="nav-search-text">Search</span>
+          </a>
+        </li></ul>
+  </div>
+
+  
+
+  
+    <div class="avatar-container">
+      <div class="avatar-img-border">
+        <a href="http://localhost:4000/">
+          <img alt="Navigation bar avatar" class="avatar-img" src="/assets/img/avatar-icon.png" />
+        </a>
+      </div>
+    </div>
+  
+
+</nav>
+
+
+
+<div id="beautifuljekyll-search-overlay">
+
+  <div id="nav-search-exit" title="Exit search">✕</div>
+  <input type="text" id="nav-search-input" placeholder="Search">
+  <ul id="search-results-container"></ul>
+  
+  <script src="https://unpkg.com/simple-jekyll-search@latest/dest/simple-jekyll-search.min.js"></script>
+  <script>
+    var searchjson = '[ \
+       \
+        { \
+          "title"    : "How Anyone Can Download and Use Historical Weather Data in Python&#39;s Pandas Library", \
+          "desc"     : "How Anyone Can Download and Use Historical Weather Data in Python&#39;s Pandas Library", \
+          "category" : "", \
+          "url"      : "/2024-03-15-weather-data/", \
+          "date"     : "March 15, 2024" \
+        }, \
+       \
+       \
+        { \
+          "title"    : "About me", \
+          "desc"     : "About me", \
+          "category" : "page", \
+          "url"      : "/aboutme/", \
+          "date"     : "January 1, 1970" \
+        }, \
+       \
+        { \
+          "title"    : "Pandas Projects", \
+          "desc"     : "Pandas Projects", \
+          "category" : "page", \
+          "url"      : "/", \
+          "date"     : "January 1, 1970" \
+        }, \
+       \
+        { \
+          "title"    : "Tag Index", \
+          "desc"     : "Tag Index", \
+          "category" : "page", \
+          "url"      : "/tags/", \
+          "date"     : "January 1, 1970" \
+        } \
+       \
+    ]';
+    searchjson = JSON.parse(searchjson);
+
+    var sjs = SimpleJekyllSearch({
+      searchInput: document.getElementById('nav-search-input'),
+      resultsContainer: document.getElementById('search-results-container'),
+      json: searchjson
+    });
+  </script>
+</div>
+
+
+
+
+
+  
+
+
+  <div id="header-big-imgs" data-num-img=1
+    
+    
+    
+    
+      data-img-src-1="http://localhost:4000/assets/img/rain.jpg"
+    
+    
+    
+  ></div>
+
+
+<header class="header-section has-img">
+<div class="intro-header  big-img ">
+  
+  <div class="container-md">
+    <div class="row">
+      <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1">
+        <div class="post-heading">
+          <h1>How Anyone Can Download and Use Historical Weather Data in Python's Pandas Library</h1>
+          
+            
+              <h2 class="post-subheading">There's a wealth of data out there for anyone who understands how to access it!</h2>
+            
+          
+          
+           
+            
+              By <strong>Gregory Lent</strong><br>
+            
+            <span class="post-meta">Posted on March 15, 2024</span>
+            
+            
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <span class='img-desc'></span>
+</div>
+
+
+
+</header>
+
+
+<main class=" container-md ">
+  <div class="row">
+    <div class=" col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 ">
+
+      
+        
+        
+        
+
+        <div id="header-gh-btns">
+          
+        </div>
+      
+
+      
+
+      <div class="blog-post">
+        <h2 id="global-historical-climatology-network-weather-data">Global Historical Climatology Network Weather Data</h2>
+
+<p>In the United States, an organization called the Global Historical Climatology Network (GHCN) maintains over 100,000 weather stations. These stations record daily statistics like maximum/minimum temperature, precipitation amounts, snow levels, and more. This data is made freely available to the public. This is an incredible resource not only for researchers, business owners, and other people who would like to use the data for professional purposes, and also for hobbyists who are interested in things like comparing rainfall or temperature between years. For example, if you have exceptional rainfall in your area, it can be fun to check how it stacks up against other historically large storms!</p>
+
+<p>Unfortunately, however, the data looks like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>USC00052223,19971101,TMAX,172,,,0,0800
+USC00052223,19971102,TMAX,111,,,0,0800
+USC00052223,19971103,TMAX,117,,,0,0800
+USC00052223,19971104,TMAX,200,,,0,0800
+USC00052223,19971105,TMAX,194,,,0,0800
+USC00052223,19971106,TMAX,150,,,0,0800
+USC00052223,19971107,TMAX,211,,,0,0800
+USC00052223,19971108,TMAX,222,,,0,0800
+USC00052223,19971109,TMAX,117,,,0,0800
+USC00052223,19971110,TMAX,17,,,0,0800
+USC00052223,19971111,TMAX,33,,,0,0800
+USC00052223,19971112,TMAX,-28,,,0,0800
+USC00052223,19971113,TMAX,39,,,0,0800
+USC00052223,19971114,TMAX,56,,,0,0800
+USC00052223,19971115,TMAX,-61,,,0,0800
+USC00052223,19971116,TMAX,-33,,,0,0800
+USC00052223,19971117,TMAX,83,,,0,0800
+USC00052223,19971118,TMAX,111,,,0,0800
+USC00052223,19971119,TMAX,100,,,0,0800
+</code></pre></div></div>
+
+<p>If you’re anything like me, this reads as complete nonsense to you. In this blog post, I will walk you through the daunting process of acquiring a local weather data file, using the Python library Pandas to clean the data and translate it into something we can understand, and using the MatPlotLib Python library to generate some simple visualizations. This is intended as a starting point for anyone who would like to use historical weather data for any purpose; once the data is cleaned and filed into a Pandas DataFrame, it is ready for any kind of analysis that you would like to perform!</p>
+
+<p><strong>Finding Your Local GHCN Station</strong></p>
+
+<p>The first thing we’re going to do is visit the <a href="https://www.arcgis.com/apps/mapviewer/index.html?webmap=d4fb04e6b89c4a4c958efd9b3b8c092d">GHCND Map Viewer</a>. You should see something like this:</p>
+
+<p><img src="https://Green9090.github.io/assets/img/map-1.png" alt="map-1" class="mx-auto d-block" /></p>
+
+<p>Each dot on this map is a weather station which can provide historical weather data at its location. For this tutorial we’re interested particularly in the blue dots, which represent GHCN stations; the other stations can be useful, but provide different kinds of data in different formats, so this guide won’t work for them without some modifications.</p>
+
+<p>The first thing I would recommend is to click the “Properties” icon in the top right of the window and turn the “Transparency” slider up. This will make the dots see-through, allowing us to navigate to a desired location much more easily:</p>
+
+<p><img src="https://Green9090.github.io/assets/img/map-2.png" alt="map-1" class="mx-auto d-block" /></p>
+
+<p>Much better.</p>
+
+<p>For this tutorial, I will be using weather data from Denver, Colorado, since it has a good amount of temperature variation and gets plenty of both rain and snow. I place my mouse pointer over the desired location and scroll up until I have zoomed in enough to distinguish individual stations. Then, I open the filter menu (third option down on the right) and click “Add expression.”</p>
+
+<p><img src="https://Green9090.github.io/assets/img/denver-1.png" alt="denver-1" class="mx-auto d-block" /></p>
+
+<p>This expression will allow us to filter out dots that are not relevant to our interests. Many of these stations, for example, will have gone out of operation decades ago. We’d like to find stations that have reasonably current data. Click on the top drop down, which currently says “Creator,” and scroll down to “End Date.” Then, change the second drop down to “is after.” I’ll choose January 1, 2021 as the latest end date I’m willing to accept.</p>
+
+<p><img src="https://Green9090.github.io/assets/img/denver-2.png" alt="denver-2" class="mx-auto d-block" /></p>
+
+<p>Notice that all but one blue dot has now been greyed out; this means that they do not fit my search criteria. Let’s click on the remaining blue dot to get some information about it.</p>
+
+<p><img src="https://Green9090.github.io/assets/img/station-1.png" alt="station-1" class="mx-auto d-block" /></p>
+
+<p>Great; looks like this station has been in operation since 1997 and has data at least as current as March 2021. In my experience, this map can be a little out of date; I’ve downloaded data from stations that the map claimed ended in 2021 (three years ago at the time of this writing) and actually had information up to the present day! If you can’t find a station that is as current as you want, try lowering your standards a little bit, and you may be pleasantly surprised.</p>
+
+<p>Now that we’ve found a station with a timeframe we’re happy with, we need to find its station ID. Scroll down in this box a little and you will find a Station ID field.</p>
+
+<p><img src="https://Green9090.github.io/assets/img/station-2.png" alt="station-2" class="mx-auto d-block" /></p>
+
+<p>In this example, my station ID is “USC00052223.” We’ll use this in the next step.</p>
+
+<p><strong>Downloading and Unpacking the Station Data</strong></p>
+
+<p>Now that we have a station we’re interested in, it’s time to track down the data file. We’ll be using NOAA’s (National Oceanic and Atmospheric Administration) <a href="https://www.ncei.noaa.gov/pub/data/ghcn/daily/by_station/">daily weather database</a>. This website is a list of all of the daily station data NOAA provides, one file for each station. Press Control+F on your keyboard to bring up a search box, and copy the station ID you’re interested in into the box. You may need to wait longer than you expect for your browser to locate the right file (this is a LONG list), but after a few moments you should be taken to a link to the data file you want. In my case, I’m downloading the file <a href="https://www.ncei.noaa.gov/pub/data/ghcn/daily/by_station/USC00052223.csv.gz">USC00052223.csv.gz</a>.</p>
+
+<p>The next step is to unpack this file. I found that the native Windows unzipping program was not capable of opening this .gz file for some reason. The free, open source unzipping program <a href="https://www.7-zip.org/download.html">7-zip</a> is a good way to open these if you don’t already have a program that can manage it. Once you have the file open, click the extract button on 7-zip (or any other unzipping software) to take the .csv file out of the archive.</p>
+
+<p>Once you have the file, you can open it in a text editor like notepad or a spreadsheet software like Microsoft Excel or Google Slides. You should see something similar to what I presented at the top of the article; in other words, a bunch of nonsense separated by commas. Read on to find out how to translate this file into something we can use.</p>
+
+<p><strong>How the Data is Formatted</strong></p>
+
+<p>The source of the information presented in this section is the <a href="https://www.ncei.noaa.gov/pub/data/ghcn/daily/readme.txt">readme file</a> provided by GHCN; if you have any questions about the data not answered here, you can refer to the readme.</p>
+
+<p>Let’s look at a line of this data file:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>USC00052223,19980125,TMIN,-6,,I,0,0800
+</code></pre></div></div>
+
+<p>Notice that now we can tell that the first column of the data is the station ID. This is going to be the same 11 characters repeated on each line of the data file.</p>
+
+<p>The second number is the date. It’s presented in the somewhat confusing format YYYYMMDD. This line of data is from January 25, 1998.</p>
+
+<p>The next column is called the “element” column. This tells us what kind of measurement is being recorded. In this case, the element is “TMIN”; the minimum temperature recorded on that day at that station. Other columns of interest to us are “TMAX” (maximum temperature), “PRCP” (amount of rainfall), “SNOW” (amount of snowfall), and “SNWD” (depth of snow on the ground). There are a number of more specialized elements that are not consistently recorded by all stations; for example, “AWDR” (average wind direction). See the readme for a full list of possibilities to check on what specialized measurements you can find in your dataset.</p>
+
+<p>Following the element column, we have the “measurement” column. This is the measurement associated with the given element on this day. In this case, -6 is the lowest temperature recorded at this station on January 25, 1998. The units may surprise you: this measurement is recorded in tenths of a degree Celsius! The lowest temperature recorded by the station was -0.6 degrees Celsius, or about 30.9 degrees Fahrenheit. Some other surprising units: PRCP is measured in tenths of a millimeter, but snowfall and snow depth are measured in plain old millimeters. It’s easy to trip up on these! We’ll be using Python code to properly convert these measurements into more familiar and practical units. If you’re looking at columns not covered in this tutorial, make sure you look up the units in the readme.</p>
+
+<p>After the measurement column, we have the flag columns, which flag lines of data that may be problematic or flawed in some way. Depending on the kind of analysis you are doing, you may want to filter out measurements that display certain kinds of flags. For our purposes, we will be ignoring these flags and using all of the data.</p>
+
+<p>The first kind of flag is the MFLAG, or measurement flag. Since this column is blank for us (notice the double commas), there were no problems recorded for this measurement. Possile values are things like “L” (temperature appears to be lagged with respect to reported hour of observation) and “P” (identified as “missing presumed zero”). Check out the readme for a full list.</p>
+
+<p>The second flag column is the QFLAG, or quality flag. This flags various kinds of consistency checks that are run by GHCN on all entries. Here, our QFLAG reads “I,” meaning “failed internal consistency check.” The readme has a list of possible values.</p>
+
+<p>Finally, we have the SFLAG, or source flag. Unlike the other two flags, this is not a measure of data reliability, but simply records which organization provided the data. In our case, the flag is set to 0, which means “U.S. Cooperative Summary of the Day (NCDC DSI-3200).” Check out the readme to see all the possible options.</p>
+
+<p>The last column of the dataset is the time of observation in HHMM format (military time). In this case, the temperature was recorded at 8:00 am.</p>
+
+<h2 id="converting-the-data-into-a-pandas-dataframe">Converting the Data into a Pandas DataFrame</h2>
+
+<p>Now that we understand how the data is structured, we can use software to convert it into something a little more useful. Notice that the data is in what’s called narrow form, or long form. If you look closely, you will see that you have multiple rows for each date, each one with a different entry in the element column to distinguish them from one another. For analysis and general readability, we typically prefer data to be in a wide form, with one row per date and columns corresponding to the different kinds of measurements taken on that date. We also would like our numbers to be consistent and readable; in this case I chose to convert all measurements to inches or degrees Fahrenheit and stored dates as Python Datetime objects. Here’s a Python function to accomplish this with precipitation, snow, snow depth, and min/max temperature:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+</pre></td><td class="code"><pre><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="c1"># Takes in a file path to a GHCN datafile and returns a nice Pandas Dataframe
+</span><span class="k">def</span> <span class="nf">import_weather_data</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s">'station'</span><span class="p">,</span> <span class="s">'date'</span><span class="p">,</span> <span class="s">'element'</span><span class="p">,</span> <span class="s">'measurement'</span><span class="p">,</span> <span class="s">'mflag'</span><span class="p">,</span> <span class="s">'qflag'</span><span class="p">,</span> <span class="s">'sflag'</span><span class="p">,</span> <span class="s">'time'</span><span class="p">])</span>
+    
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">drop</span><span class="p">([</span><span class="s">'station'</span><span class="p">,</span> <span class="s">'mflag'</span><span class="p">,</span> <span class="s">'qflag'</span><span class="p">,</span> <span class="s">'sflag'</span><span class="p">,</span> <span class="s">'time'</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">df</span><span class="p">[</span><span class="s">'date'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'date'</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s">'%Y%m%d'</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s">'date'</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s">'element'</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s">'measurement'</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">reset_index</span><span class="p">().</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s">'index'</span><span class="p">:</span> <span class="s">'date'</span><span class="p">})</span>
+    <span class="n">df</span><span class="p">.</span><span class="n">columns</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">column</span> <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">column</span> <span class="ow">in</span> <span class="p">[</span><span class="s">'date'</span><span class="p">,</span> <span class="s">'PRCP'</span><span class="p">,</span><span class="s">'SNOW'</span><span class="p">,</span><span class="s">'SNWD'</span><span class="p">,</span><span class="s">'TMAX'</span><span class="p">,</span><span class="s">'TMIN'</span><span class="p">]]]</span>
+
+    <span class="c1"># temperatures are recorded in tenths of a degree Celsius, so t/10 is in Celsius, and C*(9/5) + 32 gives Fahrenheit
+</span>    <span class="k">if</span> <span class="s">'TMAX'</span> <span class="ow">in</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="s">'TMAX'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'TMAX'</span><span class="p">]</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">9</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="mi">32</span>
+    <span class="k">if</span> <span class="s">'TMIN'</span> <span class="ow">in</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="s">'TMIN'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'TMIN'</span><span class="p">]</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">9</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="mi">32</span>
+    <span class="c1"># mm/25.4 gives inches
+</span>    <span class="k">if</span> <span class="s">'SNOW'</span> <span class="ow">in</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="s">'SNOW'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'SNOW'</span><span class="p">]</span><span class="o">/</span><span class="mf">25.4</span>
+    <span class="k">if</span> <span class="s">'SNWD'</span> <span class="ow">in</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="s">'SNWD'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'SNWD'</span><span class="p">]</span><span class="o">/</span><span class="mf">25.4</span>
+    <span class="c1"># PRCP is in tenths of a mm, so we divide by 10 and then convert to inches
+</span>    <span class="k">if</span> <span class="s">'PRCP'</span> <span class="ow">in</span> <span class="n">df</span><span class="p">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="s">'PRCP'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'PRCP'</span><span class="p">]</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span><span class="o">/</span><span class="mf">25.4</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<p>Now we can run this function by giving it a file path to a GHCN data file:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="code"><pre><span class="n">df</span> <span class="o">=</span> <span class="n">import_weather_data</span><span class="p">(</span><span class="s">'E:/Coding/Python/Weather/USC00052223.csv'</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="n">head</span><span class="p">())</span>
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<p>Make sure you change the file path to the location on your own computer where you saved the .csv file we extracted earlier.</p>
+
+<p>Our output should look something like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>        date  PRCP  SNOW  SNWD   TMAX   TMIN
+0 1997-11-01   0.0   0.0   0.0  62.96  37.04
+1 1997-11-02   0.0   0.0   0.0  51.98  33.98
+2 1997-11-03   0.0   0.0   0.0  53.06  28.04
+3 1997-11-04   0.0   0.0   0.0  68.00  33.08
+4 1997-11-05   0.0   0.0   0.0  66.92  32.00
+</code></pre></div></div>
+
+<p>Much better! Now we have the data in a readable and usable format.</p>
+
+<p><strong>Visualizing the Data</strong></p>
+
+<p>This dataframe is much easier to read than the original file, but it’s still pretty hard to draw any conclusions from it. Let’s look at a graph of the daily rainfall in Denver.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'date'</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s">'PRCP'</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlim</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'date'</span><span class="p">]),</span> <span class="nb">max</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'date'</span><span class="p">]))</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Denver, Colorado Precipitation History"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Date"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Rainfall in inches"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<p><img src="https://Green9090.github.io/assets/img/Denver-daily-rainfall.png" alt="Denver-daily-rainfall" class="mx-auto d-block" /></p>
+
+<p>This is nice if we are interested in picking out particular storms with a lot of rainfall, or general periods with high or low rainfall. On the other hand, we might be interested in general rainfall trends, which are hard to read from this graph. Let’s look at a graph of total rainfall by year instead.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre><span class="n">df</span><span class="p">[</span><span class="s">'year'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'date'</span><span class="p">].</span><span class="n">dt</span><span class="p">.</span><span class="n">year</span>
+<span class="n">yearly_rainfall_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">groupby</span><span class="p">(</span><span class="s">'year'</span><span class="p">)[</span><span class="s">'PRCP'</span><span class="p">].</span><span class="nb">sum</span><span class="p">().</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">yearly_rainfall_df</span><span class="p">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s">'year'</span><span class="p">,</span> <span class="s">'rainfall'</span><span class="p">]</span>
+<span class="n">yearly_rainfall_df</span> <span class="o">=</span> <span class="n">yearly_rainfall_df</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+
+
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">yearly_rainfall_df</span><span class="p">[</span><span class="s">'year'</span><span class="p">],</span> <span class="n">yearly_rainfall_df</span><span class="p">[</span><span class="s">'rainfall'</span><span class="p">])</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlim</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">yearly_rainfall_df</span><span class="p">[</span><span class="s">'year'</span><span class="p">]),</span> <span class="nb">max</span><span class="p">(</span><span class="n">yearly_rainfall_df</span><span class="p">[</span><span class="s">'year'</span><span class="p">]))</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">"Denver, Colorado Yearly Precipitation History"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">"Year"</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">"Total Annual Rainfall in Inches"</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<p>This code makes a new DataFrame with a column for year and a column for total rainfall in that year, then makes a new plot using this DataFrame. Note that we removed the first and last years from the data since they don’t represent a full year of rainfall, so they can’t be compared meaningfully to the other years.</p>
+
+<p><img src="https://Green9090.github.io/assets/img/Denver-annual-rainfall.png" alt="Denver-annual-rainfall" class="mx-auto d-block" /></p>
+
+<p>While this smooths a lot of information out of our graph, it’s also much easier to read! We can now quickly identify that 2015 was the rainiest year on record, and 2010 was the driest.</p>
+
+
+      </div>
+
+      
+
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+  <span class="sr-only">Share: </span>
+
+  
+    <a href="https://twitter.com/intent/tweet?text=How+Anyone+Can+Download+and+Use+Historical+Weather+Data+in+Python%27s+Pandas+Library&url=http%3A%2F%2Flocalhost%3A4000%2F2024-03-15-weather-data%2F"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fab fa-fw fa-twitter" aria-hidden="true"></span>
+      <span class="sr-only">Twitter</span>
+    </a>
+  
+
+  
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2F2024-03-15-weather-data%2F"
+      class="btn btn-social-icon btn-facebook" title="Share on Facebook">
+      <span class="fab fa-fw fa-facebook" aria-hidden="true"></span>
+      <span class="sr-only">Facebook</span>
+    </a>
+  
+
+  
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2F2024-03-15-weather-data%2F"
+      class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
+      <span class="fab fa-fw fa-linkedin" aria-hidden="true"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  
+
+  
+
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pagination blog-pager">
+        
+        
+      </ul>
+      
+  
+  
+  
+
+  
+
+
+  
+
+  
+
+
+
+    </div>
+  </div>
+</main>
+
+
+  <footer>
+  <div class="container-md beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1">
+      
+<ul class="list-inline text-center footer-links"><li class="list-inline-item">
+    <a href="mailto:GregoryLent01@gmail.com" title="Email me">
+      <span class="fa-stack fa-lg" aria-hidden="true">
+        <i class="fas fa-circle fa-stack-2x"></i>
+        <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+      </span>
+      <span class="sr-only">Email me</span>
+   </a>
+  </li></ul>
+
+      
+      <p class="copyright text-muted">
+      
+        Gregory Lent
+        &nbsp;&bull;&nbsp;
+      
+      2024
+
+      
+        &nbsp;&bull;&nbsp;
+        <span class="author-site">
+          <a href="http://localhost:4000/"></a>
+        </span>
+      
+
+      
+
+      
+
+      </p>
+      <p class="theme-by text-muted">
+        Powered by
+        <a href="https://beautifuljekyll.com">Beautiful Jekyll</a>
+      </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  
+  
+    
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+
+
+  
+    
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+
+  
+    
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+  
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script src="/assets/js/beautifuljekyll.js"></script>
+    
+  
+
+
+
+
+
+
+
+
+
+</body>
+</html>
