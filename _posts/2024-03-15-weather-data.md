@@ -117,7 +117,8 @@ import pandas as pd
 
 # Takes in a file path to a GHCN datafile and returns a nice Pandas Dataframe
 def import_weather_data(path):
-    df = pd.read_csv(path, names=['station', 'date', 'element', 'measurement', 'mflag', 'qflag', 'sflag', 'time'])
+    df = pd.read_csv(path, 
+                     names=['station', 'date', 'element', 'measurement', 'mflag', 'qflag', 'sflag', 'time'])
     
     df = df.drop(['station', 'mflag', 'qflag', 'sflag', 'time'], axis=1)
 
@@ -125,11 +126,15 @@ def import_weather_data(path):
 
     df = df.pivot(index='date', columns='element', values='measurement')
     df = df.reset_index().rename(columns={'index': 'date'})
+    # Stop the columns from being named "element"
     df.columns.name = None
 
+    # Keep any of these columns that actually exist in the dataframe (stops the 
+    # script from crashing if one of these measurements is missing)
     df = df[[column for column in df.columns if column in ['date', 'PRCP','SNOW','SNWD','TMAX','TMIN']]]
 
-    # temperatures are recorded in tenths of a degree Celsius, so t/10 is in Celsius, and C*(9/5) + 32 gives Fahrenheit
+    # temperatures are recorded in tenths of a degree Celsius, so t/10 is in Celsius, 
+    # and C*(9/5) + 32 gives Fahrenheit
     if 'TMAX' in df.columns:
         df['TMAX'] = (df['TMAX']/10)*(9/5) + 32
     if 'TMIN' in df.columns:
@@ -187,15 +192,24 @@ plt.show()
 
 ![Denver-daily-rainfall](https://Green9090.github.io/assets/img/Denver-daily-rainfall.png){: .mx-auto.d-block :}
 
-This is nice if we are interested in picking out particular storms with a lot of rainfall, or general periods with high or low rainfall. On the other hand, we might be interested in general rainfall trends, which are hard to read from this graph. Let's look at a graph of total rainfall by year instead. 
+This is nice if we are interested in picking out particular storms with a lot of rainfall. On the other hand, we might be interested in general rainfall trends, which are hard to read from this graph. Let's look at a graph of total rainfall by year instead. 
 
 {% highlight python linenos %}
-df['year'] = df['date'].dt.year
-yearly_rainfall_df = df.groupby('year')['PRCP'].sum().reset_index()
-yearly_rainfall_df.columns = ['year', 'rainfall']
-yearly_rainfall_df = yearly_rainfall_df.iloc[1:-1, :]
+# Function to take a weather dataframe and return a yearly aggregated dataframe of the given element.
+def yearly(df, element):
+    df['year'] = df['date'].dt.year
 
-plt.plot(yearly_rainfall_df['year'], yearly_rainfall_df['rainfall'])
+    yearly_df = df.groupby('year')[element].sum().reset_index()
+    yearly_df.columns = ['year', element]
+    # Remove the first and last years since they don't contain a full year of data
+    yearly_df = yearly_df.iloc[1:-1, :]
+
+    return yearly_df
+
+
+yearly_rainfall_df = yearly(df, 'PRCP')
+
+plt.plot(yearly_rainfall_df['year'], yearly_rainfall_df['PRCP'])
 plt.xlim(min(yearly_rainfall_df['year']), max(yearly_rainfall_df['year']))
 
 plt.title("Denver, Colorado Yearly Precipitation History")
@@ -205,7 +219,7 @@ plt.ylabel("Total Annual Rainfall in Inches")
 plt.show()
 {% endhighlight %}
 
-This code makes a new DataFrame with a column for year and a column for total rainfall in that year, then makes a new plot using this DataFrame. Note that in line 4 we removed the first and last years from the data since they don't represent a full year of rainfall, and thus can't be compared meaningfully to the other years.
+This code makes a new DataFrame with a column for year and a column for total rainfall in that year, then makes a new plot using this DataFrame. Note that we removed the first and last years from the data since they don't represent a full year of rainfall, and thus can't be compared meaningfully to the other years.
 
 ![Denver-annual-rainfall](https://Green9090.github.io/assets/img/Denver-annual-rainfall.png){: .mx-auto.d-block :}
 
